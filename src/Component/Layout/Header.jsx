@@ -2,7 +2,7 @@ import { NavLink } from "react-router-dom";
 
 export default function Header() {
   return (
-    <div className="px-5 md:px-10 lg:px-20 ">
+    <div className="px-5 md:px-10 lg:px-20  ">
       <div className="flex flex-col md:flex-row justify-between items-center">
         <div id="logo" className="px-5 md:px-18 font-[Snowburst_One] text-xl text-center md:text-left">
           <span className="text-6xl">M</span>ind Care.

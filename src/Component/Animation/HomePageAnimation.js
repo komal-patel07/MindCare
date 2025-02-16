@@ -14,7 +14,7 @@ export const containerVariants = {
   };
   
   export const buttonVariants = {
-    hidden: { opacity: 0, scale: 0.8 },
+    hidden: { opacity: 1, scale: 0 },
     visible: { opacity: 1, scale: 1 },
   };
   

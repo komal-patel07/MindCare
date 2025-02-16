@@ -1,7 +1,7 @@
 export default function Button({ text }) {
   return (
     <div>
-      <button className="hover:bg-emerald-900  px-5 text-2xl border-1 border-gray-500 rounded h-12 hover:text-white" >
+      <button className="hover:bg-emerald-900  px-5 text-2xl border-1 border-gray-400 rounded h-12 hover:text-white" >
         {text}
       </button>
     </div>

@@ -8,8 +8,8 @@ import { motion } from "framer-motion";
 import { buttonVariants } from "@/Component/Animation/HomePageAnimation";
 import { Toaster, toast } from "sonner";
 import { Link } from "react-router-dom";
-
-
+import { GoogleLogin,GoogleOAuthProvider } from "@react-oauth/google";
+import { jwtDecode } from "jwt-decode";
 export default function Login() {
   const [formState, setFormState] = useState({
     username: "",
@@ -36,6 +36,14 @@ export default function Login() {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
+  const handleSucess = (credentialResponse) => {
+  const decode = jwtDecode(credentialResponse?.credential)
+  setFormState.username=credentialResponse.name;
+    console.log(decode);  
+  }
+  const handleError = (error) => {
+  console.log(error);
+  }
   return (
     <div className="flex items-center justify-center min-h-170 ">
       <div className="flex flex-col md:flex-row w-full max-w-5xl rounded-lg overflow-hidden shadow-xl bg-white">
@@ -94,7 +102,7 @@ export default function Login() {
               />
             </div>
             <div className="flex justify-between items-center">
-              <a href="#" className="text-sm text-green-600 hover:underline">
+              <a href="#" className="text-sm text-emerald-900 hover:underline">
                 Forgot password?
               </a>
             </div>
@@ -105,30 +113,28 @@ export default function Login() {
               whileTap={{ scale: 0.9 }}
             >
               <Button1 className=" w-107  text-bg-emerald-800 hover:text-white border border-zinc-500  hover:bg-emerald-800 py-2">
-                Sign in
+                Login
               </Button1>
             </motion.div>
           </form>
           <div className="text-center my-4 text-gray-500 text-sm md:text-base">
             or
           </div>
-          <Button1
-            type="submit"
-            className="w-full  flex gap-30   h-12 text-gray-800 border border-gray-300 hover:active:bg-emerald-900 hover:active:text-white "
-          >
-            <span>
-              <FcGoogle size={30} />
-            </span>
-            <p className="">Sign in with Google</p>
-          </Button1>
-
+            <GoogleOAuthProvider 
+            clientId="1095836248937-ea1hjrtusaquuigbst6dm9s2s91dpk8s.apps.googleusercontent.com">
+              <GoogleLogin
+              className="border-black"
+              onSuccess={handleSucess}
+              onError={handleError}>
+              </GoogleLogin>
+            </GoogleOAuthProvider>
           <p className="text-center mt-6 text-sm text-gray-600">
             Are you new?
 
             <Link
             to="/SignupForm"
             id="Condition"
-            className="text-green-600 hover:underline"          >
+            className="text-emerald-900 hover:underline"          >
               Create an Account
               </Link>
 
