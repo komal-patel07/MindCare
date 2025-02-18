@@ -1,7 +1,7 @@
 import BoyImg from "@/assets/Layer.svg";
-import depression from "@/assets/Triggers-And-Mental-Illness.jpg";
+import Depression from "@/assets/Triggers-And-Mental-Illness.jpg";
 import PersonalityDesorder from "@/assets/person-suffering-from-ptsd.jpg";
-import anxiety from "@/assets/young-man-hoodie-leaning-face-hand-looking-tired-front-view.jpg";
+import Anxiety from "@/assets/young-man-hoodie-leaning-face-hand-looking-tired-front-view.jpg";
 import Button from "@/Component/UI/Button";
 import yoo_one from "@/assets/yoo-one.jpg";
 import beard_one from "@/assets/beard-one.jpg";
@@ -12,7 +12,6 @@ import LadyImage from "@/assets/image-Photoroom.png";
 import Service from "@/Component/UI/Service";
 import Two_home from "@/assets/doctor-examining-chest-patient.jpg";
 import "@/App.css"; // Import your CSS file
-// import FeedbackCart from "@/Component/UI/FeedbackCart";
 import FeedbackCart from "@/Component/UI/FeedbackCart";
 import {
   ResponsiveContainer,
@@ -32,6 +31,7 @@ import {
   itemVariants,
   buttonVariants,
 } from "@/Component/Animation/HomePageAnimation";
+import { Link } from "react-router-dom";
 
 // Data for the bar chart
 const data = [
@@ -127,6 +127,11 @@ export default function HomePage() {
       </div>
 
       {/* Second Section: Conditions Cards */}
+
+
+    little work is remaning here linking of buttons  with Service page
+
+
       <motion.div
         variants={containerVariants}
         initial="hidden"
@@ -142,13 +147,13 @@ export default function HomePage() {
                 "Personality disorders are a group of mental illnesses.",
             },
             {
-              image: depression,
+              image: Depression,
               title: "Depression",
               description:
                 "Depression is a common and serious medical illness that negatively.",
             },
             {
-              image: anxiety,
+              image: Anxiety,
               title: "Anxiety",
               description:
                 "Anxiety is the feeling of fear, dread, and uneasiness.",
@@ -185,7 +190,7 @@ export default function HomePage() {
             </motion.div>
           ))}
         </div>
-
+        </motion.div>
         {/* Third Section: Services */}
         <motion.div
           className="flex justify-center py-10"
@@ -207,18 +212,21 @@ export default function HomePage() {
               {
                 logo: <User className="size-11" />,
                 title: "Individual Therapy",
+                link:"IndividualTherapy",
                 description:
                   "Couples therapy, sometimes referred to as marriage therapy or couples counseling, can help couples of all types recognize and resolve conflicts.",
               },
               {
                 logo: <Users className="size-11" />,
                 title: "Couples Therapy",
+                link: "CouplesTherapy",
                 description:
                   "Couples therapy, sometimes referred to as marriage therapy or couples counseling, can help couples of all types recognize and resolve conflicts.",
               },
               {
                 logo: <FaChild className="size-11" />,
                 title: "Child Therapy",
+                link: "ChildTherapy",
                 description:
                   "Couples therapy, sometimes referred to as marriage therapy or couples counseling, can help couples of all types recognize and resolve conflicts.",
               },
@@ -226,18 +234,21 @@ export default function HomePage() {
               {
                 logo: <Pill className="size-11" />,
                 title: "Spravato Therapy",
+                link: "SpravatoTherapy",
                 description:
                   "Spravato® esketamine intranasal is a prescription, FDA-approved nasal spray made up of the chemical esketamine.",
               },
               {
                 logo: <Brain className="size-11" />,
                 title: "Relaxation Therapy",
+                link: "RelaxationTherapy",
                 description:
                   "Narrative therapy helps people become experts in their own lives by focusing on the stories and experiences they have lived.",
               },
               {
                 logo: <Leaf className="size-11" />,
                 title: "Sarvato Therapy",
+                link: "SarvatoTherapy",
                 description:
                   "Narrative therapy helps people become experts in their own lives by focusing on the stories and experiences they have lived.",
               },
@@ -252,16 +263,18 @@ export default function HomePage() {
               </motion.div>
             ))}
           </div>
-          <motion.div
+          <motion.div 
             className="w-55 mt-10"
             variants={buttonVariants}
             whileHover={{ scale: 1.1 }}
             whileTap={{ scale: 0.9 }}
           >
-            <Button text="View All Services" />
+            <Link to={`/Services?ID=Services`} >
+            <Button text="View All Services"  />
+            </Link>
           </motion.div>
         </motion.div>
-      </motion.div>
+     
 
       {/* Fourth Section: Doctor Section */}
       <div className="flex flex-col md:flex-row items-center justify-center p-10 bg-gradient-to-bl my-10 from-rose-100 via-gray-100 to-gray-200">

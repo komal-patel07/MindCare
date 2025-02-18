@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import Button from "../UI/Button";
 import Services from "@/Pages/Services";
 import { Link } from "react-router-dom";
-export default function Service({ logo, title, description }) {
+export default function Service({ logo, title,link, description }) {
   return (
     <div className="flex my-10  w-120 justify-center items-center">
         <div className="border-dashed w-40 h-40 border-2 items-center text-center flex justify-center rounded-full border-zinc-400">
@@ -13,7 +13,7 @@ export default function Service({ logo, title, description }) {
       <div className="px-5">
       <h1 className="text-2xl">{title}</h1>
       <p className="text-zinc-400 w-72 py-4">{description}</p>
-      <Link className="py-2 hover:underline" to="Services"  >View Service</Link>
+      <Link className="py-2 hover:underline"to={`/Services?ID=${link}`}  >View Service</Link>
       </div>
     </div>
   );

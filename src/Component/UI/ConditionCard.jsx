@@ -17,8 +17,8 @@ const ConditionCard = ({ image, title, description, variants }) => (
     <div className="flex flex-col justify-center items-center text-center">
       <h1 className="text-3xl py-3">{title}</h1>
       <p className="py-3 h-20 w-70 text-center">{description}</p>
-      <Link to={Condition}>
-     <Button  text="View Condition" ></Button> </Link>
+      <Link to={`/Services?ID=${image}`}></Link>
+     <Button  text="View Condition" ></Button> 
     </div>
   </motion.div>
 );

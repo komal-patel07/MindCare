@@ -39,10 +39,10 @@ export default function Login() {
   const handleSucess = (credentialResponse) => {
   const decode = jwtDecode(credentialResponse?.credential)
   setFormState.username=credentialResponse.name;
-    console.log(decode);  
+    console.log("The Data of user is ",credentialResponse);  
   }
   const handleError = (error) => {
-  console.log(error);
+  console.log("There is some Erroe" ,error);
   }
   return (
     <div className="flex items-center justify-center min-h-170 ">
@@ -97,15 +97,12 @@ export default function Login() {
                 value={formState.password}
                 onChange={handleChange}
                 type="password"
+                
                 placeholder="********"
                 className="w-full"
               />
             </div>
-            <div className="flex justify-between items-center">
-              <a href="#" className="text-sm text-emerald-900 hover:underline">
-                Forgot password?
-              </a>
-            </div>
+          
             <motion.div
               className="w-55 mt-10"
               variants={buttonVariants}
@@ -120,27 +117,28 @@ export default function Login() {
           <div className="text-center my-4 text-gray-500 text-sm md:text-base">
             or
           </div>
+
             <GoogleOAuthProvider 
             clientId="1095836248937-ea1hjrtusaquuigbst6dm9s2s91dpk8s.apps.googleusercontent.com">
               <GoogleLogin
-              className="border-black"
+            
               onSuccess={handleSucess}
               onError={handleError}>
               </GoogleLogin>
             </GoogleOAuthProvider>
           <p className="text-center mt-6 text-sm text-gray-600">
-            Are you new?
-
+            Don't have an account?{" "}
             <Link
             to="/SignupForm"
             id="Condition"
             className="text-emerald-900 hover:underline"          >
-              Create an Account
+            Sign up
               </Link>
 
           </p>
         </div>
         <Toaster richColors />
+
       </div>
     </div>
   );
