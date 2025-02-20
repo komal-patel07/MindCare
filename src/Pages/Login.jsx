@@ -1,145 +1,143 @@
-import React, { useState } from "react";
-import { Button1 } from "@/Component/UI/Button";
-import Button from "@/Component/UI/Button";
-import { Input } from "@/Component/UI/Input"; // Ensure correct import
-import Image from "@/assets/Nurse.png";
-import { FcGoogle } from "react-icons/fc";
+import { React, useState, useContext } from "react";
 import { motion } from "framer-motion";
-import { buttonVariants } from "@/Component/Animation/HomePageAnimation";
+import { PatientSignUpContext } from "@/Context/PatientSignUpContext";
 import { Toaster, toast } from "sonner";
-import { Link } from "react-router-dom";
-import { GoogleLogin,GoogleOAuthProvider } from "@react-oauth/google";
+import { Link, useNavigate } from "react-router-dom"; // Added useNavigate import
+import { GoogleLogin, GoogleOAuthProvider } from "@react-oauth/google";
 import { jwtDecode } from "jwt-decode";
+
 export default function Login() {
+  const { handleLogin } = useContext(PatientSignUpContext);
+  const navigate = useNavigate(); // Initialized useNavigate
+
   const [formState, setFormState] = useState({
     username: "",
     password: "",
   });
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      //put backend URL Path!!!
-        // await axios.post(`http://localhost:5000/api/login`, formState);
-      toast.success("Form is submitted successfully!");
-    } catch (error) {
-      toast.error("Error while submitting the form!");
-    }
-    //   // Reset form state after submission
-    setFormState({
-      username: "",
-      password: "",
-    });
-  };
+  const [errors, setErrors] = useState("");
 
   const handleChange = (e) => {
     setFormState({ ...formState, [e.target.name]: e.target.value });
   };
 
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Send formData with correct property names to handleLogin
+    const loginRes = handleLogin({
+      username: formState.username,
+      password: formState.password,
+    });
+    setErrors(loginRes);
+  };
+
   const handleSucess = (credentialResponse) => {
-  const decode = jwtDecode(credentialResponse?.credential)
-  setFormState.username=credentialResponse.name;
-    console.log("The Data of user is ",credentialResponse);  
-  }
+    const decode = jwtDecode(credentialResponse?.credential);
+    setFormState({ ...formState, username: decode.name });
+    console.log("The Data of user is ", credentialResponse);
+    Signup(formState);
+  };
+
   const handleError = (error) => {
-  console.log("There is some Erroe" ,error);
-  }
+    console.log("There is some Error", error);
+  };
+
   return (
-    <div className="flex items-center justify-center min-h-170 ">
-      <div className="flex flex-col md:flex-row w-full max-w-5xl rounded-lg overflow-hidden shadow-xl bg-white">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-bl  from-rose-100 via-gray-100 to-gray-200   ">
+      <div className="flex flex-col md:flex-row w-full max-w-5xl rounded-lg overflow-hidden shadow-xl p-6 bg-white">
         {/* Left Section */}
-        <div className="w-full md:w-1/2 p-6 md:p-10  bg-gray-50">
-          <div className="text-center flex flex-col justify-center items-center  ">
-            <img
-              width={300}
-              src={Image} // Ensure this file is in the public folder
-              alt="Student studying"
-              className="mx-auto mb-1 w-50 md:w-100"
-            />
-            <p className="text-gray-600 py-20 text-sm md:text-base ">
-              " Don't let your mind bully your body into believing it must
-              carrry the burden of it's worries."
-            </p>
-          </div>
+        <div className=" mb-6">
+          <motion.div
+            className="w-full md:w-2/3  "
+            whileHover={{ scale: 1.0 }}
+            whileTap={{ scale: 0.97 }}
+          >
+            <button
+              onClick={() => navigate(-1)} // Updated to use navigate
+              className="bg-emerald-800  text-white text-sm font-normal py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+            >
+              &larr;Back
+            </button>
+          </motion.div>
         </div>
+
+        <div className="w-full md:w-1/2 p-6 md:p-10 bg-gray-50 flex flex-col items-center">
+          <img
+            src="/src/assets/Nurse.png"
+            alt="Student studying"
+            className="w-48 sm:w-64 md:w-72 lg:w-80 mb-5"
+          />
+          <p className="text-gray-600 text-center text-sm sm:text-base px-5">
+            "Don't let your mind bully your body into believing it must carry
+            the burden of its worries."
+          </p>
+        </div>
+
         {/* Right Section */}
         <div className="w-full md:w-1/2 p-6 md:p-10 flex flex-col justify-center">
-          <form onSubmit={handleSubmit} className="space-t-4">
+          <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label
-                htmlFor="username"
-                className="block text-gray-600 mb-2 text-sm md:text-base"
-              >
+              <label className="block text-gray-600 mb-2 text-sm md:text-base">
                 Username or email
               </label>
-              <Input
-                id="username"
+              <input
+                type="text"
                 name="username"
-                required
                 value={formState.username}
                 onChange={handleChange}
-                type="text"
+                required
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-emerald-300"
                 placeholder="johnsmith007"
-                className="w-full"
               />
             </div>
+
             <div>
-              <label
-                htmlFor="password"
-                className="block text-gray-600 mb-2 text-sm md:text-base"
-              >
+              <label className="block text-gray-600 mb-2 text-sm md:text-base">
                 Password
               </label>
-              <Input
-                id="password"
+              <input
+                type="password"
                 name="password"
-                required
                 value={formState.password}
                 onChange={handleChange}
-                type="password"
-                
+                required
+                className="w-full border border-gray-300 rounded-lg px-4 py-2 focus:outline-none focus:ring focus:ring-emerald-300"
                 placeholder="********"
-                className="w-full"
               />
             </div>
-          
+
+            {/* Login Button */}
             <motion.div
-              className="w-55 mt-10"
-              variants={buttonVariants}
-              whileHover={{ scale: 1.1 }}
-              whileTap={{ scale: 0.9 }}
+              className="mt-6"
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.98 }}
             >
-              <Button1 className=" w-107  text-bg-emerald-800 hover:text-white border border-zinc-500  hover:bg-emerald-800 py-2">
+              <button className="w-full text-white bg-emerald-800  px-4 py-2 rounded-lg font-semibold transition">
                 Login
-              </Button1>
+              </button>
             </motion.div>
           </form>
+
+          {/* Divider */}
           <div className="text-center my-4 text-gray-500 text-sm md:text-base">
             or
           </div>
 
-            <GoogleOAuthProvider 
-            clientId="1095836248937-ea1hjrtusaquuigbst6dm9s2s91dpk8s.apps.googleusercontent.com">
-              <GoogleLogin
-            
-              onSuccess={handleSucess}
-              onError={handleError}>
-              </GoogleLogin>
-            </GoogleOAuthProvider>
+          {/* Google Login */}
+          <GoogleOAuthProvider clientId="1095836248937-ea1hjrtusaquuigbst6dm9s2s91dpk8s.apps.googleusercontent.com">
+            <GoogleLogin onSuccess={handleSucess} onError={handleError} />
+          </GoogleOAuthProvider>
+
+          {/* Signup Link */}
           <p className="text-center mt-6 text-sm text-gray-600">
             Don't have an account?{" "}
-            <Link
-            to="/SignupForm"
-            id="Condition"
-            className="text-emerald-900 hover:underline"          >
-            Sign up
-              </Link>
-
+            <Link to="/SignupForm" className="text-emerald-900 hover:underline">
+              Sign up
+            </Link>
           </p>
         </div>
-        <Toaster richColors />
-
       </div>
+      <Toaster richColors />
     </div>
   );
 }
